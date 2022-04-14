@@ -16,7 +16,7 @@ const router = (app) => {
   // app.get('/', controllers.Account.loginPage);
 
   app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
-  app.get('/getDomos', mid.requiresLogin, controllers.Domo.getDomos);
+  app.get('/getPost', mid.requiresLogin, controllers.Post.getPost);
 
   app.get('/movie', controllers.Movie.moviePage);
 
@@ -27,8 +27,8 @@ const router = (app) => {
 
   app.get('/logout', mid.requiresLogin, controllers.Account.logout);
 
-  app.get('/maker', mid.requiresLogin, controllers.Domo.makerPage);
-  app.post('/maker', mid.requiresLogin, controllers.Domo.makeDomo);
+  app.get('/main', mid.requiresLogin, controllers.Post.mainPage);
+  app.post('/main', mid.requiresLogin, controllers.Post.makePost);
 
   app.get('/', mid.requiresSecure, mid.requiresLogout, controllers.Account.loginPage);
 };
