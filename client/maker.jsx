@@ -1,78 +1,75 @@
 const helper = require('./helper.js');
 
-const handleDomo = (e) => {
+const handlePost = (e) => {
     e.preventDefault();
     helper.hideError();
 
-    const name = e.target.querySelector('#domoName').value;
-    const age = e.target.querySelector('#domoAge').value;
-    const color = e.target.querySelector('#domoColor').value;
+    const title = e.target.querySelector('#titleName').value;
+    const text = e.target.querySelector('#text').value;
     const _csrf = e.target.querySelector('#_csrf').value;
 
-    if(!name || !age) {
+
+    if(!title || !text) {
         helper.handleError('All fields are required!');
         return false;
     }
 
-    helper.sendPost(e.target.action, {name, age, color, _csrf}, loadDomosFromServer);
+    helper.sendPost(e.target.action, {title, text, _csrf}, loadPostsFromServer);
 
     return false;
 }
 
-const DomoForm = (props) => {
+const PostForm = (props) => {
     return (
-        <form id='domoForm'
-            onSubmit={handleDomo}
-            name='domoForm'
-            action='/maker'
+        <form id='textForm'
+            onSubmit={handlePost}
+            name='textForm'
+            action='/main'
             method='POST'
-            className='domoForm'
+            className='textForm'
         >
-            <label htmlFor='name'>Name: </label>
-            <input id='domoName' type='text' name='name' placeholder='Domo Name' />
-            <label htmlFor='age'>Age: </label>
-            <input id='domoAge' type='number' min='0' name='age' />
-            <label htmlFor='color'>Color: </label>
-            <input id='domoColor' type='text' name='color' placeholder='Domo Color' />
+            <label htmlFor='title'>Title: </label>
+            <input id='titleName' type='text' name='titleName' placeholder='Title' />
+            <label htmlFor='text'>Post </label>
+            <input id='text' type='text' name='text' placeholder='What are you thinking today?' />
             <input id='_csrf' type='hidden'name='_csrf' value={props.csrf} />
-            <input className='makeDomoSubmit' type='submit' value='Make Domo' />
+            <input className='makePostSubmit' type='submit' value='Make Post' />
         </form>
     );
 }
 
-const DomoList = (props) => {
-    if(props.domos.length === 0) {
+const PostList = (props) => {
+    if(props.post.length === 0) {
         return (
-            <div className='domoList'>
-                <h3 className='emptyDomo'>No Domos Yet!</h3>
+            <div className='postList'>
+                <h3 className='emptyPost'>No Posts Yet!</h3>
             </div>
         );
     }
 
-    const domoNodes = props.domos.map(domo => {
+    const postNodes = props.post.map(post => {
         return (
-            <div key={domo._id} className='domo'>
+            <div key={post._id} className='post'>
                 <img src='/assets/img/domoface.jpeg' alt='domo face' className='domoFace' />
-                <h3 className='domoName'> Name: {domo.name} </h3>
-                <h3 className='domoAge'> Age: {domo.age} </h3>
-                <h3 className='domoColor'> Color: {domo.color} </h3>
+                <h3 className='title'> {post.title} </h3>
+                <p className='text'>{post.text} </p>
             </div>
         );
     });
 
     return (
-        <div className='domoList'>
-            {domoNodes}
+        <div className='postList'>
+            {postNodes}
         </div>
     );
 }
 
-const loadDomosFromServer = async () => {
-    const response = await fetch('/getDomos');
+const loadPostsFromServer = async () => {
+    const response = await fetch('/getPost');
     const data = await response.json();
     ReactDOM.render(
-        <DomoList domos={data.domos} />,
-        document.getElementById('domos') 
+        <PostList post={data.posts} />,
+        document.getElementById('posts') 
     );
 }
 
@@ -81,16 +78,16 @@ const init = async () => {
     const data = await response.json();
 
     ReactDOM.render(
-        <DomoForm csrf={data.csrfToken} />,
-        document.getElementById('makeDomo')
+        <PostForm csrf={data.csrfToken} />,
+        document.getElementById('makePost')
     );
 
     ReactDOM.render(
-        <DomoList domos={[]} />,
-        document.getElementById('domos')
+        <PostList post={[]} />,
+        document.getElementById('posts')
     );
 
-    loadDomosFromServer();
+    loadPostsFromServer();
 }
 
 window.onload = init;

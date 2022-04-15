@@ -4,6 +4,11 @@ const _ = require('underscore');
 let PostModel = {};
 
 const PostSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true,
+  },
   text: {
     type: String,
     required: true,
@@ -22,6 +27,7 @@ const PostSchema = new mongoose.Schema({
 });
 
 PostSchema.statics.toAPI = (doc) => ({
+  title: doc.title,
   text: doc.text,
 });
 
@@ -30,7 +36,7 @@ PostSchema.statics.findByOwner = (ownerId, callback) => {
     owner: mongoose.Types.ObjectId(ownerId),
   };
 
-  return PostModel.find(search).select('name age color').lean().exec(callback);
+  return PostModel.find(search).select('title text').lean().exec(callback);
 };
 
 PostModel = mongoose.model('Post', PostSchema);
