@@ -10,7 +10,7 @@ const makePost = async (req, res) => {
     return res.status(400).json({ error: 'Name your post and please enter some text' });
   }
   if (!req.body.text) {
-    return res.status(400).json({ error: 'Please enter some text on to your post' })
+    return res.status(400).json({ error: 'Please enter some text on to your post' });
   }
 
   const postData = {
