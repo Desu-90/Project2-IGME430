@@ -35,7 +35,7 @@ const getPost = (req, res) => PostModel.findByOwner(req.session.account._id, (er
     return res.status(400).json({ error: 'An error occurred!' });
   }
 
-  return res.json({ domos: docs });
+  return res.json({ posts: docs });
 });
 
 module.exports = {
