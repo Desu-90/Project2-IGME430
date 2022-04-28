@@ -50,7 +50,6 @@ const PostList = (props) => {
     const postNodes = props.post.map(post => {
         return (
             <div key={post._id} className='post'>
-                <img src='/assets/img/domoface.jpeg' alt='domo face' className='domoFace' />
                 <h3 className='title'> {post.title} </h3>
                 <p className='text'>{post.text} </p>
             </div>

@@ -1,5 +1,5 @@
 
-const DomoMovie = (props) => {
+const Movie = (props) => {
     return (
         <div>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/PcltCupJUuk" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
@@ -9,7 +9,7 @@ const DomoMovie = (props) => {
 }
 const init = async () => {
     ReactDOM.render(
-        <DomoMovie csrf={data.csrfToken} />,
+        <Movie csrf={data.csrfToken} />,
         document.getElementById('content'));
 
 }
